@@ -1,10 +1,11 @@
-function Factory(factoryData) {
+function Factory(factoryData, sessionId) {
 	// set reference to HTML
 	this.simulationHeading = document.getElementById('factory-simulation-heading');
 	this.simulation = document.getElementById('factory-simulation');
 	this.productTable = document.getElementById('factory-product-table');
 	this.messages = document.getElementById('factory-messages');
 	this.slider = document.getElementById('factory-slider');
+	this.sessionId = sessionId;
 
 	// clear current canvas
 	this.resetCanvas();

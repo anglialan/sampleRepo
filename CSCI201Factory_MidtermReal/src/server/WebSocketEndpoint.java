@@ -27,6 +27,10 @@ public class WebSocketEndpoint {
 	private static final Map<String, Factory> factories = new HashMap<>();
 	private static Lock lock = new ReentrantLock();
 
+	public static Factory getFactory(String sessionId) {
+		return factories.get(sessionId);
+	}
+	
 	@OnOpen
 	public void open(Session session) {
 		lock.lock();

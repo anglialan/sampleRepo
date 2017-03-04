@@ -131,6 +131,7 @@ public class Factory implements Serializable {
 	 * @param message
 	 */
 	private void send(Message message) {
+		message.sessionId = this.mSession.getId();
 		String json = mGson.toJson(message);
 		mWebSocketEndpoint.sendToSession(mSession, json);
 	}
@@ -285,6 +286,9 @@ public class Factory implements Serializable {
 	public void setProducts(Vector<FactoryProduct> products) {
 		this.products = new Vector<>();
 		products.forEach(this::addProduct);
+	}
+	public Vector<FactoryProduct> getProducts() {
+		return this.products;
 	}
 	
 	// OBJECTS

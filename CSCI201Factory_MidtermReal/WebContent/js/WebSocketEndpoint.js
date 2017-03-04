@@ -17,7 +17,7 @@ socket.onmessage = function (event) {
 	var action = msg.action;
 
 	if (action == 'Factory') {
-		factory = new Factory(msg['factory']);
+		factory = new Factory(msg['factory'], msg['sessionId']);
 	} else if (action == 'WorkerMoveToPath') {
 		factory.moveWorker(msg['worker'], msg['shortestPathStack']);
 	} else if (action == 'UpdateTaskBoard') {

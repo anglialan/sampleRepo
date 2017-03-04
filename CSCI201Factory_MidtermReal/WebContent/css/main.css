@@ -154,3 +154,45 @@ html *, html *:before, html *:after {
 #factory-slider {
 	width: 80%;
 }
+
+/* POPUPS */
+.popup {
+	position: fixed;
+	z-index: 100;
+	max-width: 460px;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	background-color: #FFF;
+	padding: 20px;
+	padding-top: 40px;
+	border: 1px solid #CCC;
+	display: none;
+}
+.popup-heading {
+	position: absolute;
+	z-index: 1;
+	left: 0; 
+	right: 0;
+	top: 0;
+	height: 25px;
+	padding: 5px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #CCC;
+}
+.popup-close {
+	position: absolute;
+	z-index: 2;
+	top: 2px;
+	right: 2px;
+	padding: 3px;
+	height: 20px;
+	font-size: 10px;
+	background-color: #FF0000;
+	text-align: center;
+	font-weight: bold;
+	color: #FFF;
+	cursor: pointer;
+	user-select: none;
+}

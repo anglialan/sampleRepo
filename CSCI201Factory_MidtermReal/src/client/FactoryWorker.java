@@ -1,6 +1,10 @@
 package client;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Stack;
+import java.util.Vector;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -28,6 +32,7 @@ public class FactoryWorker extends FactoryObject implements Runnable {
 	// references
 	private transient Factory mFactory;
 	private transient FactoryProduct mProductToMake;
+	private transient Map<String, Integer> mProductsCompleted; // FactoryProduct name -> # completed
 
 	// threading
 	private transient Lock mLock;
@@ -52,10 +57,11 @@ public class FactoryWorker extends FactoryObject implements Runnable {
 	 * @param inFactory
 	 */
 	public FactoryWorker(int inNumber, FactoryNode startNode, Factory inFactory) {
-		super(Constants.workerString + String.valueOf(inNumber), "worker" + Constants.png);
+		super(Constants.workerString + String.valueOf(inNumber), "Worker" + Constants.png);
 		number = inNumber;
 		currentNode = startNode;
 		mFactory = inFactory;
+		mProductsCompleted = new HashMap<String, Integer>();
 		thread = new Thread(this);
 		thread.start();
 	}
@@ -115,6 +121,12 @@ public class FactoryWorker extends FactoryObject implements Runnable {
 				// SEND SHORTEST PATH TO FRONT END
 				mFactory.sendWorkerMoveToPath(this, mShortestPath);
 				atLocation.await(); // waiting for animation
+				if (mProductsCompleted.containsKey(mProductToMake.name)) {
+					Integer currentProductCompletedQuantity = mProductsCompleted.get(mProductToMake);
+					mProductsCompleted.replace(mProductToMake.name, currentProductCompletedQuantity + 1);
+				} else {
+					mProductsCompleted.put(mProductToMake.name, 1);
+				}
 				mFactory.getTaskBoard().endTask(mProductToMake);
 				mProductToMake = null;
 			}
@@ -144,6 +156,16 @@ public class FactoryWorker extends FactoryObject implements Runnable {
 		currentNode = mFactory.getNodes()[x][y];
 		atLocation.signal();
 		mLock.unlock();
+	}
+	
+	// getters
+	
+	public FactoryProduct getProductToMake() {
+		return this.mProductToMake;
+	}
+	
+	public Map<String, Integer> getProductsCompleted() {
+		return this.mProductsCompleted;
 	}
 
 }

@@ -1,6 +1,7 @@
 function FactoryWorker(worker, startingNode, dimensions, factory) {
 	this.factory = factory;
 	this.worker = worker;
+	console.log(worker);
 
 	// paint worker
 	var nodePosition = this.factory.getNodePosition(startingNode.y, startingNode.x);
@@ -25,6 +26,11 @@ FactoryWorker.prototype.placeContainer = function (dimensions, factory) {
 	container.style.width = dimensions.width + 'px';
 	container.style.height = dimensions.height + 'px';
 	factory.simulation.appendChild(container);
+	
+	container.addEventListener('click', function () {
+		handleWorkerSelect(this);
+	}.bind(this), false);
+	
 	return container;
 }
 
